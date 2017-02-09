@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   options: null,
-  plyrInstance: null,
+  player: null,
   evented: true,
 
   // formats
@@ -16,24 +16,27 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
-    const instance = this.setupPlyr();
-    if (this.get('evented') && instance) {
-      // Bind events.
+    const player = this.setupPlyr();
+    this.set('player', player);
+
+    // Bind events.
+    if (this.get('evented') && player) {
       this.get('plyrEvents').forEach(eventName => {
-        instance.on(eventName, e => {
+        player.on(eventName, e => {
           this.sendAction(eventName, e);
         });
       })
     }
-    this.set('plyrInstance', instance);
   },
 
-  willDestroyElement() {
-    this._super(...arguments);
-    const instance = this.get('plyrInstance');
-    if (instance) {
-      // Destroying also removes all events.
-      instance.destroy();
+  // Sets up a plyr player on the component's element
+  // and returns the player.
+  setupPlyr() {
+    const options = this.get('options');
+    if (options !== null) {
+      return plyr.setup(this.element, options)[0];
+    } else {
+      return plyr.setup(this.element)[0];
     }
   },
 
@@ -48,6 +51,14 @@ export default Ember.Component.extend({
       instances = plyr.setup(this.element);
     }
     return instances[0]
+  },
+
+  willDestroyElement() {
+    this._super(...arguments);
+    const player = this.get('player');
+    if (player) {
+      player.destroy();
+    }
   },
 
   // https://github.com/Selz/plyr#events
