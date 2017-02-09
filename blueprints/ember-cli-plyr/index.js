@@ -4,6 +4,6 @@ module.exports = {
   },
   afterInstall: function() {
     // Include bower assets
-    return this.addBowerPackageToProject("plyr");
+    return this.addBowerPackageToProject('plyr');
   }
 };
