@@ -16,7 +16,7 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
-    const player = this.setupPlyr();
+    let player = this.setupPlyr(this.element);
     this.set('player', player);
 
     // Bind events.
@@ -31,26 +31,13 @@ export default Ember.Component.extend({
 
   // Sets up a plyr player on the component's element
   // and returns the player.
-  setupPlyr() {
+  setupPlyr(el) {
     const options = this.get('options');
     if (options !== null) {
-      return plyr.setup(this.element, options)[0];
+      return plyr.setup(el, options)[0];
     } else {
-      return plyr.setup(this.element)[0];
+      return plyr.setup(el)[0];
     }
-  },
-
-  // Sets up a plyr instance on the component's element
-  // and returns the instance.
-  setupPlyr() {
-    const options = this.get('options');
-    let instances;
-    if (options !== null) {
-      instances = plyr.setup(this.element, options);
-    } else {
-      instances = plyr.setup(this.element);
-    }
-    return instances[0]
   },
 
   willDestroyElement() {
