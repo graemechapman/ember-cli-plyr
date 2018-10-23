@@ -8,10 +8,11 @@ var MergeTrees = require('broccoli-merge-trees');
  module.exports = {
   name: 'ember-cli-plyr',
    treeForVendor(tree) {
-    var plyrPath = path.dirname(resolve.sync('plyr'));
+    var plyrPath = path.join(path.dirname(resolve.sync('plyr')), '../../dist');
     var plyrTree = new Funnel(plyrPath, {
       files: [
-        'plyr.js'
+        'plyr.js',
+        'plyr.css'
       ],
       destDir: '/plyr/dist',
     });
@@ -21,7 +22,7 @@ var MergeTrees = require('broccoli-merge-trees');
     this._super.included(app);
 
     app.import('vendor/plyr/dist/plyr.js');
-    // app.import('vendor/plyr/dist/plyr.css');
+    app.import('vendor/plyr/dist/plyr.css');
   },
   isDevelopingAddon: function() {
     return true;
