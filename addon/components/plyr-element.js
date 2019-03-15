@@ -23,7 +23,7 @@ export default Ember.Component.extend({
     if (this.get('evented') && player) {
       this.get('plyrEvents').forEach(eventName => {
         player.on(eventName, e => {
-          this.sendAction(eventName, e);
+          Ember.tryInvoke(this, eventName, [e]);
         });
       })
     }
