@@ -1,18 +1,15 @@
-<audio controls crossorigin>
+<!-- Audio file types -->
+{{!-- Mp3 --}}
+{{#if mp3}}
+  <source src={{unbound mp3}} type="audio/mp3">
+{{/if}}
 
-  <!-- Audio file types -->
-  {{!-- Mp3 --}}
-  {{#if mp3}}
-    <source src={{unbound mp3}} type="audio/mp3">
-  {{/if}}
+{{!-- Ogg Audio --}}
+{{#if ogg}}
+<source src={{unbound ogg}} type="audio/ogg">
+{{/if}}
 
-  {{!-- Ogg Audio --}}
-  {{#if ogg}}
-  <source src={{unbound ogg}} type="audio/ogg">
-  {{/if}}
-
-  <!-- Fallback for browsers that don't support the <audio> element -->
-  <div>
-      <a href={{unbound mp3}}>Download</a>
-  </div>
-</audio>
+<!-- Fallback for browsers that don't support the <audio> element -->
+<div>
+    <a href={{unbound mp3}}>Download</a>
+</div>

@@ -1,9 +1,13 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import Plyr from 'plyr';
 
 export default Ember.Component.extend({
+  tagName: 'div',
+  attributeBindings: [ 'controls', 'crossorigin' ],
+  controls: true,
+  crossorigin: true,
   options: null,
   player: null,
-  evented: true,
 
   // formats
   mp4: '',
@@ -18,15 +22,6 @@ export default Ember.Component.extend({
     this._super(...arguments);
     let player = this.setupPlyr(this.element);
     this.set('player', player);
-
-    // Bind events.
-    if (this.get('evented') && player) {
-      this.get('plyrEvents').forEach(eventName => {
-        player.on(eventName, e => {
-          Ember.tryInvoke(this, eventName, [e]);
-        });
-      })
-    }
   },
 
   // Sets up a plyr player on the component's element
@@ -34,46 +29,18 @@ export default Ember.Component.extend({
   setupPlyr(el) {
     const options = this.get('options');
     if (options !== null) {
-      return plyr.setup(el, options)[0];
+      return new Plyr(el, options);
     } else {
-      return plyr.setup(el)[0];
+      return new Plyr(el);
     }
   },
 
   willDestroyElement() {
     this._super(...arguments);
     const player = this.get('player');
+
     if (player) {
       player.destroy();
     }
-  },
-
-  // https://github.com/Selz/plyr#events
-  plyrEvents: [
-    'setup',
-    'ready',
-    'canplay',
-    'canplaythrough',
-    'emptied',
-    'ended',
-    'error',
-    'loadeddata',
-    'loadedmetadata',
-    'loadstart',
-    'pause',
-    'play',
-    'playing',
-    'progress',
-    'seeked',
-    'seeking',
-    'stalled',
-    'timeupdate',
-    'volumechange',
-    'waiting',
-    'enterfullscreen',
-    'exitfullscreen',
-    'captionsenabled',
-    'captionsdisabled',
-    'destroyed'
-  ]
+  }
 });
