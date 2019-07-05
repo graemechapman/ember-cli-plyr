@@ -1,23 +1,20 @@
-<video poster={{unbound poster}} controls crossorigin>
+<!-- Video file types -->
+{{!-- Mp4 --}}
+{{#if mp4}}
+  <source src={{unbound mp4}} type="video/mp4">
+{{/if}}
 
-  <!-- Video file types -->
-  {{!-- Mp4 --}}
-  {{#if mp4}}
-    <source src={{unbound mp4}} type="video/mp4">
-  {{/if}}
+{{!-- Webm --}}
+{{#if webm}}
+  <source src={{unbound webm}} type="video/webm">
+{{/if}}
 
-  {{!-- Webm --}}
-  {{#if webm}}
-    <source src={{unbound webm}} type="video/webm">
-  {{/if}}
+<!-- Captions file -->
+{{#if captions}}
+  <track kind="captions" label="English captions" src={{unbound captions}} srclang="en" default>
+{{/if}}
 
-  <!-- Captions file -->
-  {{#if captions}}
-    <track kind="captions" label="English captions" src={{unbound captions}} srclang="en" default>
-  {{/if}}
-
-  <!-- Fallback for browsers that don't support the <video> element -->
-  <div>
-      <a href={{unbound mp4}}>Download</a>
-  </div>
-</video>
+<!-- Fallback for browsers that don't support the <video> element -->
+<div>
+    <a href={{unbound mp4}}>Download</a>
+</div>
